@@ -6310,7 +6310,7 @@ async function run() {
 
       const result = [];
       issues.forEach(issue => {
-        if (issue.pull_request === undefined) {
+        if (issue.pull_request === undefined && issue.number !== number) {
           const formatIssT = formatTitle(dealStringToArr(titleExcludes), issue.title);
           const formatT = formatTitle(dealStringToArr(titleExcludes), title);
           const similarity = compare(formatIssT, formatT);
@@ -6388,17 +6388,18 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
     core.info(`Error: filterComments length is ${filterComments.length}.`);
     return false;
   }
-  const title = commentTitle || `Issues Similarity Analysis:`;
+  const title = commentTitle || `### Issues Similarity Analysis:`;
   let body = '';
   issues.forEach(iss => {
     if (commentBody) {
       let temp = commentBody;
       temp = temp.replace('${number}', iss.number);
       temp = temp.replace('${title}', iss.title);
-      temp = temp.replace('${similarity}', iss.similarity);
+      temp = temp.replace('${similarity}', iss.similarity.toFixed(2));
       body += temp;
     } else {
-      body += `- [#${iss.number}][${iss.title}][${iss.similarity}]`;
+      body += `- [#${iss.number}][${iss.title}][${iss.similarity}]
+`;
     }
   });
 
