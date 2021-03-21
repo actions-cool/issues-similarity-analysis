@@ -1,48 +1,57 @@
-<p align="center">
-  <a href="">
-    <img width="140" src="https://avatars.githubusercontent.com/u/73879334?s=200&v=4" />
-  </a>
-</p>
+# 👁 Issues Similarity Analysis
 
-<h1 align="center">Action JavaScript Template</h1>
-<div align="center">
-A simple javascript template for rapid development of GitHub actions.
-</div>
+![](https://img.shields.io/github/workflow/status/actions-cool/issues-similarity-analysis/CI?style=flat-square)
+[![](https://img.shields.io/badge/marketplace-issues--similarity--analysis-blueviolet?style=flat-square)](https://github.com/marketplace/actions/issues-similarity-analysis)
+[![](https://img.shields.io/github/v/release/actions-cool/issues-similarity-analysis?style=flat-square&color=orange)](https://github.com/actions-cool/issues-similarity-analysis/releases)
 
-![](https://img.shields.io/github/workflow/status/actions-cool/action-js-template/CI?style=flat-square)
-[![](https://img.shields.io/badge/marketplace-action--js--template-blueviolet?style=flat-square)](https://github.com/marketplace/actions/action-js-template)
-[![](https://img.shields.io/github/v/release/actions-cool/action-js-template?style=flat-square&color=orange)](https://github.com/actions-cool/action-js-template/releases)
+A GitHub Action help you analysis similarity based on the title of issue.
+
+## 👋 Preview
+
+- https://github.com/actions-cool/test-issues-helper/issues/70
 
 ## 🚀 How to use?
 
-![](https://github.com/actions-cool/resources/blob/main/image/template-js.png?raw=true)
+```yml
+name: Issues Similarity Analysis
 
-## 📒 Catalog Introduction
+on:
+  issues:
+    types: [opened, edited]
 
+jobs:
+  similarity-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: analysis
+        uses: actions-cool/issues-similarity-analysis@v1.0.0
+        with:
+          filter-threshold: 0.5
+          title-excludes: 'bug, not, 1234'
+          comment-title: '### See'
+          comment-body: '${index}. ${similarity} #${number}'
 ```
-├── .github/workflows/     The CI for make sure it is packaged correctly
-├── dist                   Package the generated Aciton execution code
-├── src                    Component home directory
-│   └── main.js            Your code
-└── action.yml             Action config
-```
 
-The rest of the documents can be consulted by yourself.
+| Name | Desc | Type | Default | Required |
+| -- | -- | -- | -- | -- |
+| token | GitHub token. | string | GitHub Bot Token | ✖ |
+| since-days | How days to query the issues that updated since. | number | 100 | ✖ |
+| filter-threshold | Filter issues similarity higher than this threshold. | number | 0.8 | ✖ |
+| title-excludes | Exclude words before filter. | string | - | ✖ |
+| comment-title | Comment title customization. | string | `### Issues Similarity Analysis:` | ✖ |
+| comment-body | Comment body customization. | string | `- [#${number}][${title}][${similarity}]` | ✖ |
 
-## 🤖 Command introduction
-
-| Name | Desc |
-| -- | -- |
-| package | action build for release |
-| format | prettier write |
-| format-check | prettier check |
+- `filter-threshold`: Keep in `[0, 1]`
+- `comment-body`:
+  - The filter issues sort by threshold desc
+  - Support `${index}` `${number}` `${title}` `${similarity}`
 
 ## ⚡ Feedback
 
 You are very welcome to try it out and put forward your comments. You can use the following methods:
 
-- Report bugs or consult with [Issue](https://github.com/actions-cool/action-js-template/issues)
-- Submit [Pull Request](https://github.com/actions-cool/action-js-template/pulls) to improve the code of `action-js-template`
+- Report bugs or consult with [Issue](https://github.com/actions-cool/issues-similarity-analysis/issues)
+- Submit [Pull Request](https://github.com/actions-cool/issues-similarity-analysis/pulls) to improve the code of `issues-similarity-analysis`
 
 也欢迎加入 钉钉交流群
 

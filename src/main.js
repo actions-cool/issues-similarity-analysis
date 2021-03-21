@@ -29,6 +29,14 @@ async function run() {
       let issues = await queryIssues(owner, repo, since);
 
       const filterThreshold = core.getInput('filter-threshold');
+
+      if (isNaN(filterThreshold) || Number(filterThreshold) < 0 || Number(filterThreshold) > 1) {
+        core.setFailed(
+          `[Error] The input "filter-threshold" is ${filterThreshold}. Please keep in [0, 1].`,
+        );
+        return false;
+      }
+
       const titleExcludes = core.getInput('title-excludes');
       const commentTitle = core.getInput('comment-title');
       const commentBody = core.getInput('comment-body');
