@@ -6413,8 +6413,8 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
     }
   });
 
-  const showFooter = core.info('show-footer') || 'true';
-  console.log(showFooter);
+  let showFooter = core.info('show-footer');
+  if (showFooter == undefined) showFooter = 'true';
   const footer =
     showFooter == 'true'
       ? `<sub>🤖 By [issues-similarity-analysis](https://github.com/actions-cool/issues-similarity-analysis)</sub>
