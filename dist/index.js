@@ -6398,7 +6398,7 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
       temp = temp.replace('${similarity}', iss.similarity.toFixed(2));
       body += temp;
     } else {
-      body += `- [#${iss.number}][${iss.title}][${iss.similarity}]
+      body += `- [#${iss.number}][${iss.title}][${iss.similarity.toFixed(2)}]
 `;
     }
   });
