@@ -25,6 +25,8 @@ inputs:
     description: Comment title customization.
   comment-body:
     description: Comment body customization.
+  show-footer:
+    description: Whether show footer.
 
 runs:
   using: 'node12'

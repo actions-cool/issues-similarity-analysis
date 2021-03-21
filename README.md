@@ -40,6 +40,7 @@ jobs:
 | title-excludes | Exclude words before filter. | string | - | ✖ |
 | comment-title | Comment title customization. | string | `### Issues Similarity Analysis:` | ✖ |
 | comment-body | Comment body customization. | string | `- [#${number}][${title}][${similarity}]` | ✖ |
+| show-footer | Whether show footer. | boolean | true | ✖ |
 
 - `filter-threshold`: Keep in `[0, 1]`
 - `comment-body`:

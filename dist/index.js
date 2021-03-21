@@ -6413,8 +6413,15 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
     }
   });
 
-  const footer = `<sub>🤖 By [issues-similarity-analysis](https://github.com/actions-cool/issues-similarity-analysis)</sub>
+  const showFooter = core.info('show-footer') || 'true';
 
+  const footer =
+    showFooter === 'true'
+      ? `<sub>🤖 By [issues-similarity-analysis](https://github.com/actions-cool/issues-similarity-analysis)</sub>
+
+${FIXCOMMENT}
+`
+      : `
 ${FIXCOMMENT}
 `;
 
