@@ -48,12 +48,12 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
       let temp = commentBody;
       temp = temp.replace('${number}', iss.number);
       temp = temp.replace('${title}', iss.title);
-      temp = temp.replace('${similarity}', iss.similarity.toFixed(2));
+      temp = temp.replace('${similarity}', iss.similarity.toFixed(2) * 100 + '%');
       temp = temp.replace('${index}', index + 1);
       body += `${temp}
 `;
     } else {
-      body += `- [#${iss.number}][${iss.title}][${iss.similarity.toFixed(2)}]
+      body += `- [#${iss.number}][${iss.title}][${iss.similarity.toFixed(2) * 100 + '%'}]
 `;
     }
   });
