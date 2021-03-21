@@ -1,22 +1,30 @@
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
-name: 'Action JS Template'
-description: 'A simple javascript template for rapid development of GitHub actions.'
+name: 'Issues Similarity Analysis'
+description: 'A GitHub Action help you analysis similarity based on the title of issue.'
 author: 'xrkffgg'
 
+# https://actions-cool.github.io/github-action-branding/
 branding:
-  # https://actions-cool.github.io/github-action-branding/
-  icon: 'file'
-  color: 'blue'
+  icon: 'navigation'
+  color: 'red'
 
 inputs:
-  GITHUB_TOKEN:
+  token:
     description: Secret GitHub API token to use for making API requests.
     default: ${{ github.token }}
     required: true
-
-#outputs:
-#  result:
-#    description: action result
+  since-days:
+    description: How days to query the issues that updated since.
+    default: 100
+  filter-threshold:
+    description: Filter issues similarity higher than this threshold.
+    default: 0.8
+  title-excludes:
+    description: Exclude words before filter.
+  comment-title:
+    description: Comment title customization.
+  comment-body:
+    description: Comment body customization.
 
 runs:
   using: 'node12'
