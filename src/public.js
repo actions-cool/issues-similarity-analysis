@@ -58,8 +58,7 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
     }
   });
 
-  let showFooter = core.info('show-footer');
-  console.log(showFooter);
+  let showFooter = core.getInput('show-footer');
   if (showFooter == undefined) showFooter = 'true';
   const footer =
     showFooter == 'true'
