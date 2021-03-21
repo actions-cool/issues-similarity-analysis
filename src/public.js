@@ -59,16 +59,14 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
   });
 
   const showFooter = core.info('show-footer') || 'true';
-
+  console.log(showFooter);
   const footer =
-    showFooter === 'true'
+    showFooter == 'true'
       ? `<sub>🤖 By [issues-similarity-analysis](https://github.com/actions-cool/issues-similarity-analysis)</sub>
 
 ${FIXCOMMENT}
 `
-      : `
-${FIXCOMMENT}
-`;
+      : `${FIXCOMMENT}`;
 
   if (filterComments.length == 0) {
     await octokit.issues.createComment({
