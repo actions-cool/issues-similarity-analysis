@@ -21,7 +21,7 @@
     "@actions/github": "^4.0.0",
     "@octokit/rest": "^18.0.14",
     "actions-util": "^1.0.0",
-    "compare-similarity": "^0.0.2",
+    "compare-similarity": "^1.0.0",
     "dayjs": "^1.10.4"
   },
   "devDependencies": {
