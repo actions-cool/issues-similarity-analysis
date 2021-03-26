@@ -28,9 +28,9 @@ async function run() {
 
       let issues = await queryIssues(owner, repo, since);
 
-      const filterThreshold = core.getInput('filter-threshold');
+      const filterThreshold = Number(core.getInput('filter-threshold'));
 
-      if (isNaN(filterThreshold) || Number(filterThreshold) < 0 || Number(filterThreshold) > 1) {
+      if (isNaN(filterThreshold) || filterThreshold < 0 || filterThreshold > 1) {
         core.setFailed(
           `[Error] The input "filter-threshold" is ${filterThreshold}. Please keep in [0, 1].`,
         );
@@ -41,18 +41,26 @@ async function run() {
       const commentTitle = core.getInput('comment-title');
       const commentBody = core.getInput('comment-body');
 
+      const formatT = formatTitle(dealStringToArr(titleExcludes), title);
+
+      if (formatT.length == 0) {
+        core.info(`[title: ${title}] exclude after empty!`);
+        return false;
+      }
+
       const result = [];
       issues.forEach(issue => {
         if (issue.pull_request === undefined && issue.number !== number) {
           const formatIssT = formatTitle(dealStringToArr(titleExcludes), issue.title);
-          const formatT = formatTitle(dealStringToArr(titleExcludes), title);
-          const similarity = compare(formatIssT, formatT);
-          if (similarity >= filterThreshold) {
-            result.push({
-              number: issue.number,
-              title: issue.title,
-              similarity: similarity,
-            });
+          if (formatIssT.length > 0) {
+            const similarity = compare(formatIssT, formatT);
+            if (similarity >= filterThreshold) {
+              result.push({
+                number: issue.number,
+                title: issue.title,
+                similarity: similarity,
+              });
+            }
           }
         }
       });
