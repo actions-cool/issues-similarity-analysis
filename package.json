@@ -1,6 +1,4 @@
 {
-  "name": "issues-similarity-analysis",
-  "version": "1.0.0",
   "private": true,
   "description": "A GitHub Action help you analysis similarity based on the title of issue.",
   "main": "src/main.js",
