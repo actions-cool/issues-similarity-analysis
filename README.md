@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: analysis
-        uses: actions-cool/issues-similarity-analysis@v1.0.0
+        uses: actions-cool/issues-similarity-analysis@v1
         with:
           filter-threshold: 0.5
           title-excludes: 'bug, not, 1234'
