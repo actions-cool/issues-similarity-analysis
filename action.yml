@@ -3,6 +3,13 @@ name: 'Issues Similarity Analysis'
 description: 'A GitHub Action help you analysis similarity based on the title of issue.'
 author: 'xrkffgg'
 
+github-token:
+  action-input:
+    input: token
+  permissions:
+    issues: write
+    issues-reason: to update or create issue comments
+
 # https://actions-cool.github.io/github-action-branding/
 branding:
   icon: 'navigation'

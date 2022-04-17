@@ -54,11 +54,11 @@ async function run() {
           const formatIssT = formatTitle(dealStringToArr(titleExcludes), issue.title);
           if (formatIssT.length > 0) {
             const similarity = compare(formatIssT, formatT);
-            if (similarity >= filterThreshold) {
+            if (similarity && similarity >= filterThreshold) {
               result.push({
                 number: issue.number,
                 title: issue.title,
-                similarity: similarity,
+                similarity: Number(similarity.toFixed(2)),
               });
             }
           }
