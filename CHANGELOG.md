@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.2
+
+`2022.04.19`
+
+- fix: similarity accuracy again.
+
 ## v1.1.1
 
 `2022.04.17`
