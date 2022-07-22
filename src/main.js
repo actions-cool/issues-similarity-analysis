@@ -52,6 +52,7 @@ async function run() {
 
       if (formatT.length == 0) {
         core.info(`[Action][title: ${title}] exclude after empty!`);
+        await doRemoveIssueComment(owner, repo, number, FIXCOMMENT);
         return false;
       }
 

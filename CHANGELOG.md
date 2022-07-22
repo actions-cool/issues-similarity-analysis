@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.3
+
+`2022.07.22`
+
+- fix: delete comment lost when title empty.
+
 ## v1.2.2
 
 `2022.07.22`
