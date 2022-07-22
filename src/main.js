@@ -5,7 +5,13 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 dayjs.extend(utc);
 
-const { queryIssues, formatTitle, doIssueComment, checkMentioned } = require('./public');
+const {
+  queryIssues,
+  formatTitle,
+  doIssueComment,
+  checkMentioned,
+  doRemoveIssueComment,
+} = require('./public');
 
 const { dealStringToArr } = require('actions-util');
 
@@ -74,6 +80,8 @@ async function run() {
       if (result.length > 0) {
         result.sort((a, b) => b.similarity - a.similarity);
         await doIssueComment(owner, repo, number, result, commentTitle, commentBody, FIXCOMMENT);
+      } else {
+        await doRemoveIssueComment(owner, repo, number, FIXCOMMENT);
       }
     } else {
       core.setFailed(`This action only support on "issues"!`);

@@ -87,6 +87,27 @@ ${FIXCOMMENT}
   }
 }
 
+async function doRemoveIssueComment(owner, repo, number, FIXCOMMENT) {
+  const comments = await listComments(owner, repo, number);
+  const filterComments = [];
+  comments.forEach(comment => {
+    if (comment.body.includes(FIXCOMMENT)) {
+      filterComments.push(comment.id);
+    }
+  });
+  if (filterComments.length > 1) {
+    core.info(`Error: filterComments length is ${filterComments.length}.`);
+    return false;
+  } else if (filterComments.length == 1) {
+    await octokit.issues.deleteComment({
+      owner,
+      repo,
+      comment_id: filterComments[0],
+    });
+    core.info(`Actions: [delete-comment][${number}] success!`);
+  }
+}
+
 async function listComments(owner, repo, number, page = 1) {
   let { data: comments } = await octokit.issues.listComments({
     owner,
@@ -115,6 +136,7 @@ function checkMentioned(showMentioned, body, number, owner, repo) {
   const issueFullLink = `https://github.com/${owner}/${repo}/issues/${number}`;
   const issueSimpleLink = `#${number}`;
   if (body.includes(issueFullLink) || body.includes(issueSimpleLink)) {
+    core.info(`[Actions][check-mentioned][${number}] includes, ignore!`);
     return false;
   }
   return true;
@@ -125,6 +147,7 @@ module.exports = {
   queryIssues,
   formatTitle,
   doIssueComment,
+  doRemoveIssueComment,
   removeEmoji,
   checkMentioned,
 };
