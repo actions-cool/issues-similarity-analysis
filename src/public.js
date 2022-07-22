@@ -54,7 +54,7 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
       body += `${temp}
 `;
     } else {
-      body += `- [#${iss.number}][${iss.title}][${similarity}%]
+      body += `- [#${iss.number}][${similarity}%]
 `;
     }
   });
