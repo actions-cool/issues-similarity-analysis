@@ -24,9 +24,9 @@ function formatTitle(excludes, title) {
     return title;
   }
   excludes.forEach(ex => {
-    title = title.replace(ex, '');
+    title = title.replace(removeEmoji(ex), '');
   });
-  return removeEmoji(title.trim());
+  return removeEmoji(title.trim()).trim();
 }
 
 async function doIssueComment(owner, repo, number, issues, commentTitle, commentBody, FIXCOMMENT) {
@@ -44,7 +44,12 @@ async function doIssueComment(owner, repo, number, issues, commentTitle, comment
   const title = commentTitle || `### Issues Similarity Analysis:`;
   let body = '';
   issues.forEach((iss, index) => {
-    const similarity = (iss.similarity * 100).toString().substring(0, 2);
+    let similarity;
+    if (iss.similarity == 1) {
+      similarity = '100';
+    } else {
+      similarity = (iss.similarity * 100).toString().substring(0, 2);
+    }
     if (commentBody) {
       let temp = commentBody;
       temp = temp.replace('${number}', iss.number);
