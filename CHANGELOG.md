@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.2.0
+
+`2022.07.22`
+
+- feat: support `show-mentioned`. Default: false.
+- feat: default remove emoji.
+- fix: delete issueComponent when has no.
+- style: add more info.
+
 ## v1.1.2
 
 `2022.04.19`
