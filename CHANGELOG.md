@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.1
+
+`2022.07.22`
+
+- fix: remove default title.
+
 ## v1.2.0
 
 `2022.07.22`
