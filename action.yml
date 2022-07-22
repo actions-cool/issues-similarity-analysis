@@ -32,6 +32,8 @@ inputs:
     description: Comment title customization.
   comment-body:
     description: Comment body customization.
+  show-mentioned:
+    description: Whether show mentioned.
   show-footer:
     description: Whether show footer.
 

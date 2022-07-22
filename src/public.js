@@ -26,7 +26,7 @@ function formatTitle(excludes, title) {
   excludes.forEach(ex => {
     title = title.replace(ex, '');
   });
-  return title.trim();
+  return removeEmoji(title.trim());
 }
 
 async function doIssueComment(owner, repo, number, issues, commentTitle, commentBody, FIXCOMMENT) {
@@ -101,9 +101,30 @@ async function listComments(owner, repo, number, page = 1) {
   return comments;
 }
 
+function removeEmoji(str) {
+  return str.replace(
+    /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+    '',
+  );
+}
+
+function checkMentioned(showMentioned, body, number, owner, repo) {
+  if (showMentioned || !body) {
+    return true;
+  }
+  const issueFullLink = `https://github.com/${owner}/${repo}/issues/${number}`;
+  const issueSimpleLink = `#${number}`;
+  if (body.includes(issueFullLink) || body.includes(issueSimpleLink)) {
+    return false;
+  }
+  return true;
+}
+
 // ************************************************
 module.exports = {
   queryIssues,
   formatTitle,
   doIssueComment,
+  removeEmoji,
+  checkMentioned,
 };

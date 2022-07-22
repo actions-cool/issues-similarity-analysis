@@ -5,7 +5,7 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 dayjs.extend(utc);
 
-const { queryIssues, formatTitle, doIssueComment } = require('./public');
+const { queryIssues, formatTitle, doIssueComment, checkMentioned } = require('./public');
 
 const { dealStringToArr } = require('actions-util');
 
@@ -21,7 +21,7 @@ async function run() {
     const FIXCOMMENT = `<!-- Created by actions-cool/issues-similarity-analysis. Do not remove. -->`;
 
     if (context.eventName == 'issues') {
-      const { number, title } = context.payload.issue;
+      const { number, title, body } = context.payload.issue;
 
       const sinceDays = core.getInput('since-days');
       const since = dayjs.utc().subtract(sinceDays, 'day').format();
@@ -32,7 +32,7 @@ async function run() {
 
       if (isNaN(filterThreshold) || filterThreshold < 0 || filterThreshold > 1) {
         core.setFailed(
-          `[Error] The input "filter-threshold" is ${filterThreshold}. Please keep in [0, 1].`,
+          `[Action][Error] The input "filter-threshold" is ${filterThreshold}. Please keep in [0, 1].`,
         );
         return false;
       }
@@ -40,11 +40,12 @@ async function run() {
       const titleExcludes = core.getInput('title-excludes');
       const commentTitle = core.getInput('comment-title');
       const commentBody = core.getInput('comment-body');
+      const showMentioned = core.getInput('show-mentioned') || false;
 
       const formatT = formatTitle(dealStringToArr(titleExcludes), title);
 
       if (formatT.length == 0) {
-        core.info(`[title: ${title}] exclude after empty!`);
+        core.info(`[Action][title: ${title}] exclude after empty!`);
         return false;
       }
 
@@ -54,7 +55,11 @@ async function run() {
           const formatIssT = formatTitle(dealStringToArr(titleExcludes), issue.title);
           if (formatIssT.length > 0) {
             const similarity = compare(formatIssT, formatT);
-            if (similarity && similarity >= filterThreshold) {
+            if (
+              similarity &&
+              similarity >= filterThreshold &&
+              checkMentioned(showMentioned, body, issue.number, owner, repo)
+            ) {
               result.push({
                 number: issue.number,
                 title: issue.title,

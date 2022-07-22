@@ -10023,7 +10023,7 @@ const dayjs = __nccwpck_require__(7401);
 const utc = __nccwpck_require__(4359);
 dayjs.extend(utc);
 
-const { queryIssues, formatTitle, doIssueComment } = __nccwpck_require__(197);
+const { queryIssues, formatTitle, doIssueComment, checkMentioned } = __nccwpck_require__(197);
 
 const { dealStringToArr } = __nccwpck_require__(6972);
 
@@ -10039,7 +10039,7 @@ async function run() {
     const FIXCOMMENT = `<!-- Created by actions-cool/issues-similarity-analysis. Do not remove. -->`;
 
     if (context.eventName == 'issues') {
-      const { number, title } = context.payload.issue;
+      const { number, title, body } = context.payload.issue;
 
       const sinceDays = core.getInput('since-days');
       const since = dayjs.utc().subtract(sinceDays, 'day').format();
@@ -10050,7 +10050,7 @@ async function run() {
 
       if (isNaN(filterThreshold) || filterThreshold < 0 || filterThreshold > 1) {
         core.setFailed(
-          `[Error] The input "filter-threshold" is ${filterThreshold}. Please keep in [0, 1].`,
+          `[Action][Error] The input "filter-threshold" is ${filterThreshold}. Please keep in [0, 1].`,
         );
         return false;
       }
@@ -10058,11 +10058,12 @@ async function run() {
       const titleExcludes = core.getInput('title-excludes');
       const commentTitle = core.getInput('comment-title');
       const commentBody = core.getInput('comment-body');
+      const showMentioned = core.getInput('show-mentioned') || false;
 
       const formatT = formatTitle(dealStringToArr(titleExcludes), title);
 
       if (formatT.length == 0) {
-        core.info(`[title: ${title}] exclude after empty!`);
+        core.info(`[Action][title: ${title}] exclude after empty!`);
         return false;
       }
 
@@ -10072,7 +10073,11 @@ async function run() {
           const formatIssT = formatTitle(dealStringToArr(titleExcludes), issue.title);
           if (formatIssT.length > 0) {
             const similarity = compare(formatIssT, formatT);
-            if (similarity && similarity >= filterThreshold) {
+            if (
+              similarity &&
+              similarity >= filterThreshold &&
+              checkMentioned(showMentioned, body, issue.number, owner, repo)
+            ) {
               result.push({
                 number: issue.number,
                 title: issue.title,
@@ -10132,7 +10137,7 @@ function formatTitle(excludes, title) {
   excludes.forEach(ex => {
     title = title.replace(ex, '');
   });
-  return title.trim();
+  return removeEmoji(title.trim());
 }
 
 async function doIssueComment(owner, repo, number, issues, commentTitle, commentBody, FIXCOMMENT) {
@@ -10207,11 +10212,32 @@ async function listComments(owner, repo, number, page = 1) {
   return comments;
 }
 
+function removeEmoji(str) {
+  return str.replace(
+    /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+    '',
+  );
+}
+
+function checkMentioned(showMentioned, body, number, owner, repo) {
+  if (showMentioned || !body) {
+    return true;
+  }
+  const issueFullLink = `https://github.com/${owner}/${repo}/issues/${number}`;
+  const issueSimpleLink = `#${number}`;
+  if (body.includes(issueFullLink) || body.includes(issueSimpleLink)) {
+    return false;
+  }
+  return true;
+}
+
 // ************************************************
 module.exports = {
   queryIssues,
   formatTitle,
   doIssueComment,
+  removeEmoji,
+  checkMentioned,
 };
 
 
