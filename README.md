@@ -41,7 +41,7 @@ jobs:
 | comment-title | Comment title customization. | string | `### Issues Similarity Analysis:` | ✖ |
 | comment-body | Comment body customization. | string | `- [#${number}][${title}][${similarity}]` | ✖ |
 | show-footer | Whether show footer. | boolean | true | ✖ |
-| show-mentioned | Whether show mentioned issues in the current issue body | boolean | false ✖ |
+| show-mentioned | Whether show mentioned issues in the current issue body | boolean | false | ✖ |
 
 - `filter-threshold`: Keep in `[0, 1]`
 - `comment-body`:
