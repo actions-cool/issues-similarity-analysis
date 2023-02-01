@@ -48,6 +48,20 @@ jobs:
   - The filter issues sort by threshold desc
   - Support `${index}` `${number}` `${title}` `${similarity}`
 
+The return format is as follows:
+
+```js
+  "similar-issues": [
+    { "number": 6, "title": "bug 2", "similarity": 1 },
+    { "number": 10, "title": "bug", "similarity": 0.85 },
+    { "number": 8, "title": "bug", "similarity": 0.85 }
+  ],
+  "similar-issues-found": "true",
+  "similar-issues-number": "6,10,8"
+```
+
+- Return `similar-issues-found`, due to yml reasons, the judgment condition is `if: steps.step-id.outputs.similar-issues-found =='true'`
+
 ## ⚡ Feedback
 
 You are very welcome to try it out and put forward your comments. You can use the following methods:
