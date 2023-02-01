@@ -1,6 +1,6 @@
 # 👁 Issues Similarity Analysis
 
-![](https://img.shields.io/github/workflow/status/actions-cool/issues-similarity-analysis/CI?style=flat-square)
+![](https://img.shields.io/github/actions/workflow/status/actions-cool/issues-similarity-analysis/test.yml?branch=main&style=flat-square)
 [![](https://img.shields.io/badge/marketplace-issues--similarity--analysis-blueviolet?style=flat-square)](https://github.com/marketplace/actions/issues-similarity-analysis)
 [![](https://img.shields.io/github/v/release/actions-cool/issues-similarity-analysis?style=flat-square&color=orange)](https://github.com/actions-cool/issues-similarity-analysis/releases)
 
