@@ -11669,8 +11669,6 @@ async function run() {
 
     const FIXCOMMENT = `<!-- Created by actions-cool/issues-similarity-analysis. Do not remove. -->`;
 
-    const result = [];
-
     if (context.eventName == 'issues') {
       const { number, title, body } = context.payload.issue;
 
@@ -11701,6 +11699,7 @@ async function run() {
         return false;
       }
 
+      const result = [];
       issues.forEach(issue => {
         if (issue.pull_request === undefined && issue.number !== number) {
           const formatIssT = formatTitle(dealStringToArr(titleExcludes), issue.title);
@@ -11728,13 +11727,13 @@ async function run() {
       } else {
         await doRemoveIssueComment(owner, repo, number, FIXCOMMENT);
       }
+
+      core.setOutput('similar-issues', JSON.stringify(result));
+      core.setOutput('similar-issues-found', result.length > 0);
+      core.setOutput('similar-issues-number', result.map(({ number }) => number).join(','));
     } else {
       core.setFailed(`This action only support on "issues"!`);
     }
-
-    core.setOutput('similar-issues', JSON.stringify(result));
-    core.setOutput('similar-issues-found', result.length > 0);
-    core.setOutput('similar-issues-number', result.map(({ number }) => number).join(','));
   } catch (error) {
     core.setFailed(error.message);
   }
