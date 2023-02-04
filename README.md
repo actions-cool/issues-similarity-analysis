@@ -1,6 +1,6 @@
 # 👁 Issues Similarity Analysis
 
-![](https://img.shields.io/github/workflow/status/actions-cool/issues-similarity-analysis/CI?style=flat-square)
+![](https://img.shields.io/github/actions/workflow/status/actions-cool/issues-similarity-analysis/test.yml?branch=main&style=flat-square)
 [![](https://img.shields.io/badge/marketplace-issues--similarity--analysis-blueviolet?style=flat-square)](https://github.com/marketplace/actions/issues-similarity-analysis)
 [![](https://img.shields.io/github/v/release/actions-cool/issues-similarity-analysis?style=flat-square&color=orange)](https://github.com/actions-cool/issues-similarity-analysis/releases)
 
@@ -47,6 +47,20 @@ jobs:
 - `comment-body`:
   - The filter issues sort by threshold desc
   - Support `${index}` `${number}` `${title}` `${similarity}`
+
+The return format is as follows:
+
+```js
+  "similar-issues": [
+    { "number": 6, "title": "bug 2", "similarity": 1 },
+    { "number": 10, "title": "bug", "similarity": 0.85 },
+    { "number": 8, "title": "bug", "similarity": 0.85 }
+  ],
+  "similar-issues-found": "true",
+  "similar-issues-number": "6,10,8"
+```
+
+- Return `similar-issues-found`, due to yml reasons, the judgment condition is `if: steps.step-id.outputs.similar-issues-found =='true'`
 
 ## ⚡ Feedback
 

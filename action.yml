@@ -37,6 +37,14 @@ inputs:
   show-footer:
     description: Whether show footer.
 
+outputs:
+  similar-issues-found:
+    description: Whether similar issues found.
+  similar-issues:
+    description: Similar issues Summary.
+  similar-issues-number:
+    description: Similar issues Number.
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

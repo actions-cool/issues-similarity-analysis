@@ -84,6 +84,10 @@ async function run() {
       } else {
         await doRemoveIssueComment(owner, repo, number, FIXCOMMENT);
       }
+
+      core.setOutput('similar-issues', JSON.stringify(result));
+      core.setOutput('similar-issues-found', result.length > 0);
+      core.setOutput('similar-issues-number', result.map(({ number }) => number).join(','));
     } else {
       core.setFailed(`This action only support on "issues"!`);
     }
