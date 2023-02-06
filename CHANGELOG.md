@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.0
+
+`2023.02.06`
+
+- feat: support `similar-issues-found` `similar-issues` `similar-issues-number` output. [#5](https://github.com/actions-cool/issues-similarity-analysis/pull/5) [@Wxh16144](https://github.com/Wxh16144)
+
 ## v1.2.3
 
 `2022.07.22`
