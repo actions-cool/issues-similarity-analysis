@@ -19,6 +19,4 @@ jobs:
         run: yarn format-check
 
       - name: package
-        
         run: yarn package
-        
